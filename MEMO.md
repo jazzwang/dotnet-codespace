@@ -37,3 +37,14 @@ jazzwang:~/git/dotnet-codespace$ code sbin/enable-dotnet
 jazzwang:~/git/dotnet-codespace$ git add sbin/.
 jazzwang:~/git/dotnet-codespace$ git commit -a ; git push
 ```
+- ( 2023-09-05 03:37:38 )
+```
+gitpod /workspace/dotnet-codespace (main) $ chmod a+x sbin/install-dotnet
+gitpod /workspace/dotnet-codespace (main) $ sbin/install-dotnet
+gitpod /workspace/dotnet-codespace (main) $ cat .gitconfig >> .git/config
+gitpod /workspace/dotnet-codespace (main) $ cat >> .gitignore << EOF
+# 2023-09-05 - ignore .dotnet runtime for gitpod
+.dotnet
+EOF
+gitpod /workspace/dotnet-codespace (main) $ git commit -a ; git push
+```
