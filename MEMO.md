@@ -24,5 +24,16 @@ jazzwang:~/git/dotnet-codespace$ code README.md
 - ( 2023-09-05 10:55:07 )
 ```
 jazzwang:~/git/dotnet-codespace$ git add .
-
+jazzwang:~/git/dotnet-codespace$ git commit -a
+[main 75f344b] add `open in gitpod` to README.md
+ 2 files changed, 12 insertions(+)
+ create mode 100644 README.md
+jazzwang:~/git/dotnet-codespace$ git push
+```
+- ( 2023-09-05 10:58:19 )
+```
+jazzwang:~/git/dotnet-codespace$ mkdir sbin; code sbin/install-dotnet
+jazzwang:~/git/dotnet-codespace$ code sbin/enable-dotnet
+jazzwang:~/git/dotnet-codespace$ git add sbin/.
+jazzwang:~/git/dotnet-codespace$ git commit -a ; git push
 ```
