@@ -233,3 +233,60 @@ bash: dotnet-script: command not found
   - You can invoke **functions** directly to return a string, such as "Hello World!"
   - You can also create and deploy a **full web API application** that can respond to all HTTP commands
   - build a **suite of Lambda functions** orchestrated by **AWS Step Functions**.
+
+## 2023-09-12
+
+- ( 2023-09-12 15:56:17 )
+- Supported versions of .NET
+  - 1. managed runtime provided by AWS
+    - As of January 2023, AWS only offers managed runtimes for long-term support (LTS) versions of .NET runtime:
+      - **.NET 3.1**
+      - **.NET 6**
+    - The .NET managed runtimes are available for both **x86_64** and **arm64** architectures and run on **Amazon Linux 2**.
+    - PS. available Lambda runtimes - https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html
+  - 2. custom runtime
+    - pass `--self-contained true` to the `dotnet build`` command.
+    - using the `aws-lambda-tools-defaults.json` file with the following parameter: `"msbuild-parameters": "--self-contained true"`
+    - To help reduce this size, consider using the .NET compilation features [Trimming](https://docs.microsoft.com/en-us/dotnet/core/deploying/trimming/trim-self-contained) and also [ReadyToRun](https://docs.microsoft.com/en-us/dotnet/core/deploying/ready-to-run).
+  - 3. container image
+    - AWS provides various **[base images](https://gallery.ecr.aws/lambda/dotnet) for .NET and .NET Core** to help get you started.
+      - see the Dockerfiles in [this repository](https://github.com/aws/aws-lambda-dotnet/tree/master/LambdaRuntimeDockerfiles/Images).
+    - Images of up to **10 GB** are supported
+- Invoking a .NET Lambda function
+  - You can invoke a .NET Lambda function with:
+    -  a string,
+    - JSON object
+    - HTTP request
+    - Amazon S3 (when an object change occurs)
+    - Kinesis (when an event arrives)
+    - DynamoDB (when a change occurs on a table)
+    - Amazon SNS (when a message arrives)
+    - AWS Step Functions
+    - a stream. However - this is a less common scenario. For more information, see the page on [handling streams](https://docs.aws.amazon.com/lambda/latest/dg/csharp-handler.html#csharp-handler-streams)
+
+  - ( 2023-09-12 16:29:53 )
+  - Function Handler
+    - Each Lambda function has a single function handler.
+      - If you look at the `aws-lambda-tools-defaults.json`, you can see the `"function-handler":`  specified.
+    - Along with the **JSON input**, the Lambda function handler can also take an **optional `ILambdaContext` object**.
+    - `ILambdaContext` object gives you access to information about the current invocation, such as
+      - the **time it has left to complete**,
+      - the **function name**, and
+      - **version**.
+  - JSON input
+    - If you wanted to call a Lambda function in response to a file change on an S3 bucket, you must create a Lambda function that accepts **an object of type S3Event**.
+    ```c#
+    public async string FunctionHandler(S3Event s3Event, ILambdaContext context)
+    {
+      ...
+    }
+    ```
+    - Here are some of the common packages you might use to handle events from other services:
+      - https://www.nuget.org/packages/Amazon.Lambda.S3Events
+      - https://www.nuget.org/packages/Amazon.Lambda.SNSEvents
+      - https://www.nuget.org/packages/Amazon.Lambda.DynamoDBEvents
+      - https://www.nuget.org/packages/Amazon.Lambda.CloudWatchEvents
+      - https://www.nuget.org/packages/Amazon.Lambda.KinesisEvents
+      - https://www.nuget.org/packages/Amazon.Lambda.APIGatewayEvents
+  - ( 2023-09-12 16:40:27 )
+  - Serialization
