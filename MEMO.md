@@ -95,6 +95,14 @@ Tool 'dotnet-script' (version '1.4.0') was successfully installed.
 ```
 - ( 2023-09-05 05:03:33 )
 ```
+gitpod /workspace/dotnet-codespace (main) $ dotnet script
+Could not execute because the specified command or file was not found.
+Possible reasons for this include:
+  * You misspelled a built-in dotnet command.
+  * You intended to execute a .NET program, but dotnet-script does not exist.
+  * You intended to run a global tool, but a dotnet-prefixed executable with this name could not be found on the PATH.
+gitpod /workspace/dotnet-codespace (main) $ dotnet-script
+bash: dotnet-script: command not found
 ```
 
 ### Building AWS Lambda Functions
@@ -128,3 +136,100 @@ Tool 'dotnet-script' (version '1.4.0') was successfully installed.
     - the **processor architecture** and
     - the **amount of memory** to allocate to the function.
   - You can run your **.NET Lambda functions** on **x86_64** and **arm64** processors.
+
+- **Tutorials 1, 2, and 3**
+  - ( 2023-09-11 15:09:31 )
+  - https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet#options-for-displaying-environment-information-and-available-commands
+    ```csharp
+    gitpod /workspace/dotnet-codespace (main) $ dotnet --list-runtimes
+    Microsoft.AspNetCore.App 6.0.21 [/workspace/dotnet-codespace/.dotnet/shared/Microsoft.AspNetCore.App]
+    Microsoft.NETCore.App 6.0.21 [/workspace/dotnet-codespace/.dotnet/shared/Microsoft.NETCore.App]
+    gitpod /workspace/dotnet-codespace (main) $ dotnet --list-sdks
+    6.0.413 [/workspace/dotnet-codespace/.dotnet/sdk]
+    ```
+  - **Tools and templates**
+  - Instructions from document
+  ```sh
+  dotnet tool install -g Amazon.Lambda.Tools
+  dotnet new -i Amazon.Lambda.Templates
+  ```
+  - ( 2023-09-11 15:18:20 )
+  - real practice
+  ```sh
+  gitpod /workspace/dotnet-codespace (main) $ cat sbin/enable-dotnet
+  export PATH=$PATH:$(pwd)/.dotnet
+  ## Reference:
+  ## - https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-environment-variables#net-sdk-and-cli-environment-variables
+  export DOTNET_ROOT=$(pwd)/.dotnet
+  export NUGET_PACKAGES=$(pwd)/.nuget/packages
+  export DOTNET_CLI_TELEMETRY_OPTOUT=true
+  gitpod /workspace/dotnet-codespace (main) $ source sbin/enable-dotnet
+  gitpod /workspace/dotnet-codespace (main) $ dotnet tool install -g Amazon.Lambda.Tools
+  Tools directory '/home/gitpod/.dotnet/tools' is not currently on the PATH environment variable.
+  If you are using bash, you can add it to your profile by running the following command:
+
+  cat << \EOF >> ~/.bash_profile
+  # Add .NET Core SDK tools
+  export PATH="$PATH:/home/gitpod/.dotnet/tools"
+  EOF
+
+  You can add it to the current session by running the following command:
+
+  export PATH="$PATH:/home/gitpod/.dotnet/tools"
+
+  You can invoke the tool using the following command: dotnet-lambda
+  Tool 'amazon.lambda.tools' (version '5.8.0') was successfully installed.
+
+  gitpod /workspace/dotnet-codespace (main) $ dotnet new -i Amazon.Lambda.Templates
+  The following template packages will be installed:
+    Amazon.Lambda.Templates
+
+  Success: Amazon.Lambda.Templates::6.14.0 installed the following templates:
+  Template Name                                                                         Short Name                                    Language  Tags
+  ------------------------------------------------------------------------------------  --------------------------------------------  --------  --------------------------------
+  Empty Top-level Function                                                              lambda.EmptyTopLevelFunction                  [C#]      AWS/Lambda/Serverless
+  Lambda Annotations Framework Sample                                                   serverless.Annotations                        [C#]      AWS/Lambda/Serverless
+  Lambda ASP.NET Core Minimal API                                                       serverless.AspNetCoreMinimalAPI               [C#]      AWS/Lambda/Serverless
+  Lambda ASP.NET Core Web API                                                           serverless.AspNetCoreWebAPI                   [C#],F#   AWS/Lambda/Serverless
+  Lambda ASP.NET Core Web API (.NET 6 Container Image)                                  serverless.image.AspNetCoreWebAPI             [C#],F#   AWS/Lambda/Serverless
+  Lambda ASP.NET Core Web Application with Razor Pages                                  serverless.AspNetCoreWebApp                   [C#]      AWS/Lambda/Serverless
+  Lambda Custom Runtime Function (.NET 7)                                               lambda.CustomRuntimeFunction                  [C#],F#   AWS/Lambda/Function
+  Lambda Detect Image Labels                                                            lambda.DetectImageLabels                      [C#],F#   AWS/Lambda/Function
+  Lambda Empty Function                                                                 lambda.EmptyFunction                          [C#],F#   AWS/Lambda/Function
+  Lambda Empty Function (.NET 7 Container Image)                                        lambda.image.EmptyFunction                    [C#],F#   AWS/Lambda/Function
+  Lambda Empty Serverless                                                               serverless.EmptyServerless                    [C#],F#   AWS/Lambda/Serverless
+  Lambda Empty Serverless (.NET 7 Container Image)                                      serverless.image.EmptyServerless              [C#],F#   AWS/Lambda/Serverless
+  Lambda Function project configured for deployment using .NET 7's Native AOT feature.  lambda.NativeAOT                              [C#],F#   AWS/Lambda/Function
+  Lambda Function with Powertools for AWS Lambda (.NET)                                 lambda.Powertools                             [C#]      AWS/Lambda/Function/Powertools
+  Lambda Giraffe Web App                                                                serverless.Giraffe                            F#        AWS/Lambda/Serverless
+  Lambda Serverless with Powertools for AWS Lambda (.NET)                               serverless.Powertools                         [C#]      AWS/Lambda/Serverless/Powertools
+  Lambda Simple Application Load Balancer Function                                      lambda.SimpleApplicationLoadBalancerFunction  [C#]      AWS/Lambda/Function
+  Lambda Simple DynamoDB Function                                                       lambda.DynamoDB                               [C#],F#   AWS/Lambda/Function
+  Lambda Simple Kinesis Firehose Function                                               lambda.KinesisFirehose                        [C#]      AWS/Lambda/Function
+  Lambda Simple Kinesis Function                                                        lambda.Kinesis                                [C#],F#   AWS/Lambda/Function
+  Lambda Simple S3 Function                                                             lambda.S3                                     [C#],F#   AWS/Lambda/Function
+  Lambda Simple SNS Function                                                            lambda.SNS                                    [C#]      AWS/Lambda/Function
+  Lambda Simple SQS Function                                                            lambda.SQS                                    [C#]      AWS/Lambda/Function
+  Lex Book Trip Sample                                                                  lambda.LexBookTripSample                      [C#]      AWS/Lambda/Function
+  Order Flowers Chatbot Tutorial                                                        lambda.OrderFlowersChatbot                    [C#]      AWS/Lambda/Function
+  Serverless Detect Image Labels                                                        serverless.DetectImageLabels                  [C#],F#   AWS/Lambda/Serverless
+  Serverless project configured for deployment using .NET 7's Native AOT feature.       serverless.NativeAOT                          [C#],F#   AWS/Lambda/Serverless
+  Serverless Simple S3 Function                                                         serverless.S3                                 [C#],F#   AWS/Lambda/Serverless
+  Serverless WebSocket API                                                              serverless.WebSocketAPI                       [C#]      AWS/Lambda/Serverless
+  Step Functions Hello World                                                            serverless.StepFunctionsHelloWorld            [C#],F#   AWS/Lambda/Serverless
+
+  gitpod /workspace/dotnet-codespace (main) $
+  ```
+
+| Tutoroal | Description | File Size |
+|--|--|--|
+| Tutorial 1 | .NET Tools for AWS Lambda.pdf               | 3 MB |
+| Tutorial 2 | The Hello World of Lambda Functions.pdf     | 672.6 KB |
+| Tutorial 3 | A .NET API Running in a Lambda Function.pdf | 246 KB |
+
+### Unit 2: .NET on AWS Lambda
+
+- You can create and deploy .NET applications on Lambda in several ways.
+  - You can invoke **functions** directly to return a string, such as "Hello World!"
+  - You can also create and deploy a **full web API application** that can respond to all HTTP commands
+  - build a **suite of Lambda functions** orchestrated by **AWS Step Functions**.
