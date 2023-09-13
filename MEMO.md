@@ -273,6 +273,7 @@ bash: dotnet-script: command not found
       - the **time it has left to complete**,
       - the **function name**, and
       - **version**.
+  - ( 2023-09-12 16:40:27 )
   - JSON input
     - If you wanted to call a Lambda function in response to a file change on an S3 bucket, you must create a Lambda function that accepts **an object of type S3Event**.
     ```c#
@@ -288,5 +289,8 @@ bash: dotnet-script: command not found
       - https://www.nuget.org/packages/Amazon.Lambda.CloudWatchEvents
       - https://www.nuget.org/packages/Amazon.Lambda.KinesisEvents
       - https://www.nuget.org/packages/Amazon.Lambda.APIGatewayEvents
-  - ( 2023-09-12 16:40:27 )
+
+## 2023-09-13
+
+  - ( 2023-09-13 23:13:14 )
   - Serialization
