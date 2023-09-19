@@ -147,6 +147,10 @@ bash: dotnet-script: command not found
     gitpod /workspace/dotnet-codespace (main) $ dotnet --list-sdks
     6.0.413 [/workspace/dotnet-codespace/.dotnet/sdk]
     ```
+  - Prerequisites
+    - AWS account
+    - AWS CLI
+    - .NET 6 SDK
   - **Tools and templates**
   - Instructions from document
   ```sh
@@ -293,4 +297,127 @@ bash: dotnet-script: command not found
 ## 2023-09-13
 
   - ( 2023-09-13 23:13:14 )
-  - Serialization
+  - **Serialization**
+    - there are two broad categories of Lambda project templates:
+      - those templates that start with "lambda."
+      ```
+      gitpod /workspace/dotnet-codespace (main) $ dotnet new -l | grep "AWS/Lambda" | grep lambda
+      Empty Top-level Function                                             lambda.EmptyTopLevelFunction                  [C#]        AWS/Lambda/Serverless
+      Lambda Custom Runtime Function (.NET 7)                              lambda.CustomRuntimeFunction                  [C#],F#     AWS/Lambda/Function
+      Lambda Detect Image Labels                                           lambda.DetectImageLabels                      [C#],F#     AWS/Lambda/Function
+      Lambda Empty Function                                                lambda.EmptyFunction                          [C#],F#     AWS/Lambda/Function
+      Lambda Empty Function (.NET 7 Container Image)                       lambda.image.EmptyFunction                    [C#],F#     AWS/Lambda/Function
+      Lambda Function project configured for deployment using .NET 7's...  lambda.NativeAOT                              [C#],F#     AWS/Lambda/Function
+      Lambda Function with Powertools for AWS Lambda (.NET)                lambda.Powertools                             [C#]        AWS/Lambda/Function/Powertools
+      Lambda Simple Application Load Balancer Function                     lambda.SimpleApplicationLoadBalancerFunction  [C#]        AWS/Lambda/Function
+      Lambda Simple DynamoDB Function                                      lambda.DynamoDB                               [C#],F#     AWS/Lambda/Function
+      Lambda Simple Kinesis Firehose Function                              lambda.KinesisFirehose                        [C#]        AWS/Lambda/Function
+      Lambda Simple Kinesis Function                                       lambda.Kinesis                                [C#],F#     AWS/Lambda/Function
+      Lambda Simple S3 Function                                            lambda.S3                                     [C#],F#     AWS/Lambda/Function
+      Lambda Simple SNS Function                                           lambda.SNS                                    [C#]        AWS/Lambda/Function
+      Lambda Simple SQS Function                                           lambda.SQS                                    [C#]        AWS/Lambda/Function
+      Lex Book Trip Sample                                                 lambda.LexBookTripSample                      [C#]        AWS/Lambda/Function
+      Order Flowers Chatbot Tutorial                                       lambda.OrderFlowersChatbot                    [C#]        AWS/Lambda/Function
+      ```
+      - those templates start with "serverless."
+      - ( 2023-09-19 15:54:55 )
+      ```
+      gitpod /workspace/dotnet-codespace (main) $ dotnet new -l | grep "AWS/Lambda" | grep serverless
+      Lambda Annotations Framework Sample                                  serverless.Annotations                        [C#]        AWS/Lambda/Serverless
+      Lambda ASP.NET Core Minimal API                                      serverless.AspNetCoreMinimalAPI               [C#]        AWS/Lambda/Serverless
+      Lambda ASP.NET Core Web API                                          serverless.AspNetCoreWebAPI                   [C#],F#     AWS/Lambda/Serverless
+      Lambda ASP.NET Core Web API (.NET 6 Container Image)                 serverless.image.AspNetCoreWebAPI             [C#],F#     AWS/Lambda/Serverless
+      Lambda ASP.NET Core Web Application with Razor Pages                 serverless.AspNetCoreWebApp                   [C#]        AWS/Lambda/Serverless
+      Lambda Empty Serverless                                              serverless.EmptyServerless                    [C#],F#     AWS/Lambda/Serverless
+      Lambda Empty Serverless (.NET 7 Container Image)                     serverless.image.EmptyServerless              [C#],F#     AWS/Lambda/Serverless
+      Lambda Giraffe Web App                                               serverless.Giraffe                            F#          AWS/Lambda/Serverless
+      Lambda Serverless with Powertools for AWS Lambda (.NET)              serverless.Powertools                         [C#]        AWS/Lambda/Serverless/Powertools
+      Serverless Detect Image Labels                                       serverless.DetectImageLabels                  [C#],F#     AWS/Lambda/Serverless
+      Serverless project configured for deployment using .NET 7's Nati...  serverless.NativeAOT                          [C#],F#     AWS/Lambda/Serverless
+      Serverless Simple S3 Function                                        serverless.S3                                 [C#],F#     AWS/Lambda/Serverless
+      Serverless WebSocket API                                             serverless.WebSocketAPI                       [C#]        AWS/Lambda/Serverless
+      Step Functions Hello World                                           serverless.StepFunctionsHelloWorld            [C#],F#     AWS/Lambda/Serverless
+      ```
+    - ( 2023-09-19 16:16:46 ) TODO: 這段待測驗 Template 後再重新理解內容描述要表達的意義
+- **Concurrency**
+  - ( 2023-09-19 16:17:44 )
+  - There are two kinds of concurrency to consider when working with Lambda functions:
+    - **reserved concurrency**
+      - guaranteeing that the function will be able to reach the specified number of simultaneous executions.
+    - **provisioned concurrency**
+      - initializing a specified number of Lambda execution environments.
+      - When these have initialized, the Lambda function will be able to respond to requests immediately, <mark>avoiding the issue of **cold starts**</mark>.
+      - <mark>provisioned concurrency 跟費用有關</mark>
+      - https://docs.aws.amazon.com/lambda/latest/dg/configuration-concurrency.html
+      - https://docs.aws.amazon.com/lambda/latest/dg/provisioned-concurrency.html
+- **Cold starts and warm starts**
+  - ( 2023-09-19 16:22:38 )
+  - Cold Start
+    - The **first time** your function starts, the code is **compiled**, and **initialization** code, such as the constructor, is run. This adds to the cold start time.
+  - ( 2023-09-19 16:28:06 ) TODO: 這段待測驗 Template 後再重新理解內容描述要表達的意義
+
+| Tutoroal | Description | File Size |
+|--|--|--|
+| Tutorial 1 | .NET Tools for AWS Lambda.pdf               | 3 MB |
+| Tutorial 2 | The Hello World of Lambda Functions.pdf     | 672.6 KB |
+| Tutorial 3 | A .NET API Running in a Lambda Function.pdf | 246 KB |
+| Tutorial 4 | A Hello World Style .NET Lambda Function.pdf | 837 KB |
+| Tutorial 5 | A .NET Lambda Function that takes a JSON Payload.pdf | 344.5 KB |
+| Tutorial 6 | Creating and Running a Web API Application as a Lambda Function.pdf | 329.6 KB |
+
+- ( 2023-09-19 16:29:24 )
+- Cleaning up resources you created
+```
+dotnet lambda delete-function HelloEmptyFunction
+dotnet lambda delete-function HelloPersonFunction
+dotnet lambda delete-serverless AspNetCoreWebAPI
+```
+- ( 2023-09-19 16:30:47 )
+```
+gitpod /workspace/dotnet-codespace (main) $ dotnet lambda
+Could not execute because the specified command or file was not found.
+Possible reasons for this include:
+  * You misspelled a built-in dotnet command.
+  * You intended to execute a .NET program, but dotnet-lambda does not exist.
+  * You intended to run a global tool, but a dotnet-prefixed executable with this name could not be found on the PATH.
+```
+- ( 2023-09-19 16:30:53 )
+```
+gitpod /workspace/dotnet-codespace (main) $ dotnet lambda
+Amazon Lambda Tools for .NET Core applications (5.8.0)
+Project Home: https://github.com/aws/aws-extensions-for-dotnet-cli, https://github.com/aws/aws-lambda-dotnet
+
+
+
+Commands to deploy and manage AWS Lambda functions:
+
+        deploy-function         Command to deploy the project to AWS Lambda
+        invoke-function         Command to invoke a function in Lambda with an optional input
+        list-functions          Command to list all your Lambda functions
+        delete-function         Command to delete a Lambda function
+        get-function-config     Command to get the current runtime configuration for a Lambda function
+        update-function-config  Command to update the runtime configuration for a Lambda function
+
+Commands to deploy and manage AWS Serverless applications using AWS CloudFormation:
+
+        deploy-serverless       Command to deploy an AWS Serverless application
+        list-serverless         Command to list all your AWS Serverless applications
+        delete-serverless       Command to delete an AWS Serverless application
+
+Commands to publish and manage AWS Lambda Layers:
+
+        publish-layer           Command to publish a Layer that can be associated with a Lambda function
+        list-layers             Command to list Layers
+        list-layer-versions     Command to list versions for a Layer
+        get-layer-version       Command to get the details of a Layer version
+        delete-layer-version    Command to delete a version of a Layer
+
+Other Commands:
+
+        package                 Command to package a Lambda project either into a zip file or docker image if --package-type is set to "image". The output can later be deployed to Lambda with either deploy-function command or with another tool.
+        package-ci              Command to use as part of a continuous integration system.
+        push-image              Build Lambda Docker image and push the image to Amazon ECR.
+
+To get help on individual commands execute:
+        dotnet lambda help <command>
+```
