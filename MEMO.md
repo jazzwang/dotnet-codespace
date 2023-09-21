@@ -814,3 +814,59 @@ gitpod /workspace/dotnet-codespace/1_AWS_Lambda (main) $
 
 - ( 2023-09-21 22:43:59 )
 - https://aws.amazon.com/developer/language/net/badges-and-training/aws-lambda/module-two/
+- ( 2023-09-21 22:48:19 )
+- remove install-aws-cli since we use `pip install awscli` instead
+```
+gitpod /workspace/dotnet-codespace/1_AWS_Lambda (main) $ git rm ../sbin/install-aws-cli
+rm 'sbin/install-aws-cli'
+```
+- ( 2023-09-21 22:51:51 )
+- Install AWS Toolkit for Visual Studio Code
+  - https://aws.amazon.com/visualstudiocode/
+```bash
+gitpod /workspace/dotnet-codespace/1_AWS_Lambda (main) $ code --install-extension AmazonWebServices.aws-toolkit-vscode
+Installing extensions on SSH: jazzwang-dotnetcodespac-41eoupzura9.vss.gitpod.io...
+Installing extension 'amazonwebservices.aws-toolkit-vscode'...
+Extension 'amazonwebservices.aws-toolkit-vscode' v1.90.0 was successfully installed.
+```
+- ( 2023-09-21 23:02:34 )
+- Learn how to use [AWS .NET Mock Lambda Test Tool](https://github.com/aws/aws-lambda-dotnet/tree/master/Tools/LambdaTestTool).
+
+#### AWS Lambda for .NET Core - Templates
+
+- ( 2023-09-21 23:09:21 )
+```
+dotnet new -i "Amazon.Lambda.Templates::*"
+dotnet new lambda --list
+dotnet new lambda.EmptyFunction
+```
+
+#### AWS Extensions for .NET CLI (dotnet lambda ...)
+
+- ( 2023-09-21 23:09:25 )
+```
+dotnet tool install -g Amazon.Lambda.Tools
+dotnet lambda
+dotnet lambda list-functions
+dotnet lambda invoke-function functionName
+dotnet lambda deploy-function
+dotnet lambda deploy-function --help
+```
+
+#### AWS Tools for PowerShell
+
+- [Install as a .NET Global tool](https://learn.microsoft.com/en-us/powershell/scripting/install/install-other-linux?view=powershell-7.3#install-as-a-net-global-tool)
+```bash
+dotnet tool install --global PowerShell
+```
+- [AWS Tools for PowerShell Cmdlet Reference](https://docs.aws.amazon.com/powershell/latest/reference/Index.html)
+```powershell
+Get-Command -Module AWS.Tools.Lambda
+Get-LMFunctionList
+$Response=Invoke-LMFunction -FunctionName StringToUpperCase -Payload '"hello world"'
+[System.IO.StreamReader]::new($Response.Payload).ReadToEnd()
+```
+
+#### Docker for .NET 7 Native AOT Functions (Skip)
+
+- ( 2023-09-21 23:13:22 )
