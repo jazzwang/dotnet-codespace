@@ -533,7 +533,9 @@ Advance your knowledge and skills with more .NET training and courses.
 - https://github.com/aws-samples/aws-net-guides
 - https://docs.aws.amazon.com/lambda/latest/dg/lambda-csharp.html
 
-##
+## [Developer Center] .NET Workloads on AWS Lambda
+
+### Module 1: Introduction to AWS Lambda
 
 - ( 2023-09-21 18:57:52 )
 ```bash
@@ -544,6 +546,21 @@ gitpod /workspace/dotnet-codespace/1_AWS_Lambda (main) $ dotnet new -i Amazon.La
 gitpod /workspace/dotnet-codespace/1_AWS_Lambda (main) $ export PATH="$PATH:/home/gitpod/.dotnet/tools"
 gitpod /workspace/dotnet-codespace/1_AWS_Lambda (main) $ dotnet new lambda.EmptyFunction -n HelloLambda
 The template "Lambda Empty Function" was created successfully.
+gitpod /workspace/dotnet-codespace/1_AWS_Lambda (main) $ git add HelloLambda/
+gitpod /workspace/dotnet-codespace/1_AWS_Lambda (main) $ git st
+On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   HelloLambda/src/HelloLambda/Function.cs
+        new file:   HelloLambda/src/HelloLambda/HelloLambda.csproj
+        new file:   HelloLambda/src/HelloLambda/Readme.md
+        new file:   HelloLambda/src/HelloLambda/aws-lambda-tools-defaults.json
+        new file:   HelloLambda/test/HelloLambda.Tests/FunctionTest.cs
+        new file:   HelloLambda/test/HelloLambda.Tests/HelloLambda.Tests.csproj
+
 gitpod /workspace/dotnet-codespace/1_AWS_Lambda (main) $ cd HelloLambda/src/HelloLambda
 gitpod /workspace/dotnet-codespace/1_AWS_Lambda/HelloLambda/src/HelloLambda (main) $ dotnet lambda deploy-function --function-name HelloLambda
 Amazon Lambda Tools for .NET Core applications (5.8.0)
@@ -553,7 +570,7 @@ Enter AWS Region: (The region to connect to AWS services, if not set region will
 
 Can not determine AWS region. Either configure a default region or use the --region option.
 ```
-- ( 2023-09-21 09:04:27 )
+- ( 2023-09-21 17:04:27 )
 - Need to install and configure AWS CLI
 ```bash
 gitpod /workspace/dotnet-codespace (main) $ cd sbin/
@@ -566,4 +583,92 @@ gitpod /workspace/dotnet-codespace (main) $ git commit -a
  1 file changed, 4 insertions(+)
  create mode 100644 sbin/install-aws-cli
 gitpod /workspace/dotnet-codespace (main) $ git push
+```
+- ( 2023-09-21 22:14:05 )
+- install AWS CLI and configure credential
+```bash
+gitpod /workspace/dotnet-codespace (main) $ pip install awscli
+gitpod /workspace/dotnet-codespace (main) $ aws config
+```
+- ( 2023-09-21 22:15:07 )
+```bash
+gitpod /workspace/dotnet-codespace/1_AWS_Lambda (main) $ cd HelloLambda/src/HelloLambda
+gitpod /workspace/dotnet-codespace/1_AWS_Lambda/HelloLambda/src/HelloLambda (main) $ dotnet lambda deploy-function --function-name HelloLambda
+
+Amazon Lambda Tools for .NET Core applications (5.8.0)
+Project Home: https://github.com/aws/aws-extensions-for-dotnet-cli, https://github.com/aws/aws-lambda-dotnet
+
+Executing publish command
+... invoking 'dotnet publish', working folder '/workspace/dotnet-codespace/1_AWS_Lambda/HelloLambda/src/HelloLambda/bin/Release/net6.0/publish'
+... dotnet publish "/workspace/dotnet-codespace/1_AWS_Lambda/HelloLambda/src/HelloLambda" --output "/workspace/dotnet-codespace/1_AWS_Lambda/HelloLambda/src/HelloLambda/bin/Release/net6.0/publish" --configuration "Release" --framework "net6.0" /p:GenerateRuntimeConfigurationFiles=true --runtime linux-x64 --self-contained False
+... publish: MSBuild version 17.3.2+561848881 for .NET
+... publish:   Determining projects to restore...
+... publish:   Restored /workspace/dotnet-codespace/1_AWS_Lambda/HelloLambda/src/HelloLambda/HelloLambda.csproj (in 3.32 sec).
+... publish:   HelloLambda -> /workspace/dotnet-codespace/1_AWS_Lambda/HelloLambda/src/HelloLambda/bin/Release/net6.0/linux-x64/HelloLambda.dll
+... publish:   HelloLambda -> /workspace/dotnet-codespace/1_AWS_Lambda/HelloLambda/src/HelloLambda/bin/Release/net6.0/publish/
+Changed permissions on published file (chmod +rx HelloLambda.dll).
+Changed permissions on published file (chmod +rx Amazon.Lambda.Core.dll).
+Changed permissions on published file (chmod +rx HelloLambda.pdb).
+Changed permissions on published file (chmod +rx Amazon.Lambda.Serialization.SystemTextJson.dll).
+Changed permissions on published file (chmod +rx HelloLambda.deps.json).
+Changed permissions on published file (chmod +rx HelloLambda.runtimeconfig.json).
+Zipping publish folder /workspace/dotnet-codespace/1_AWS_Lambda/HelloLambda/src/HelloLambda/bin/Release/net6.0/publish to /workspace/dotnet-codespace/1_AWS_Lambda/HelloLambda/src/HelloLambda/bin/Release/net6.0/HelloLambda.zip
+... zipping:   adding: HelloLambda.dll (deflated 57%)
+... zipping:   adding: Amazon.Lambda.Core.dll (deflated 56%)
+... zipping:   adding: HelloLambda.pdb (deflated 42%)
+... zipping:   adding: Amazon.Lambda.Serialization.SystemTextJson.dll (deflated 50%)
+... zipping:   adding: HelloLambda.deps.json (deflated 68%)
+... zipping:   adding: HelloLambda.runtimeconfig.json (deflated 32%)
+Created publish archive (/workspace/dotnet-codespace/1_AWS_Lambda/HelloLambda/src/HelloLambda/bin/Release/net6.0/HelloLambda.zip).
+Creating new Lambda function HelloLambda
+Select IAM Role that to provide AWS credentials to your code:
+    1) curl-role-fpqa751z
+    2) python-role-y99w6ais
+    3) *** Create new IAM Role ***
+
+Invalid selection, must be a number between 1 and 3
+3
+Enter name of the new IAM Role:
+tutorial
+Select IAM Policy to attach to the new role and grant permissions
+    1) AWSLambdaExecute (Provides Put, Get access to S3 and full access to CloudWatch Logs.)
+    2) AWSLambdaInvocation-DynamoDB (Provides read access to DynamoDB Streams.)
+    3) AWSLambdaRole (Default policy for AWS Lambda service role.)
+    4) AWSLambdaBasicExecutionRole (Provides write permissions to CloudWatch Logs.)
+    5) AWSLambdaDynamoDBExecutionRole (Provides list and read access to DynamoDB streams and writ ...)
+    6) AWSLambdaKinesisExecutionRole (Provides list and read access to Kinesis streams and write  ...)
+    7) AWSLambdaVPCAccessExecutionRole (Provides minimum permissions for a Lambda function to exe ...)
+    8) AWSLambdaENIManagementAccess (Provides minimum permissions for a Lambda function to manage ...)
+    9) AWSLambdaReplicator (Grants Lambda Replicator necessary permissions to replicate functions ...)
+   10) AWSLambdaSQSQueueExecutionRole (Provides receive message, delete message, and read attribu ...)
+   11) AWSLambdaMSKExecutionRole (Provides permissions required to access MSK Cluster within a VP ...)
+   12) AWSLambda_ReadOnlyAccess (Grants read-only access to AWS Lambda service, AWS Lambda consol ...)
+   13) AWSLambda_FullAccess (Grants full access to AWS Lambda service, AWS Lambda console feature ...)
+   14) AWSGlueServiceRole-yellow
+   15) AWSLambdaBasicExecutionRole-c94a6a33-d15a-4827-b3e3-61c7f4941d11
+   16) AWSLambdaBasicExecutionRole-5ed00e3c-d091-4283-a60d-2bf16250f55c
+   17) AwsGlueDataBrewServicePolicyForInputS3-NYC
+   18) AwsGlueDataBrewServicePolicyForOutputS3-NYC
+   19) *** No policy, add permissions later ***
+4
+Waiting for new IAM Role to propagate to AWS regions
+...............  Done
+New Lambda function created
+gitpod /workspace/dotnet-codespace/1_AWS_Lambda/HelloLambda/src/HelloLambda (main) $ dotnet lambda invoke-function --function-name HelloLambda --payload "Hello World!"
+Amazon Lambda Tools for .NET Core applications (5.8.0)
+Project Home: https://github.com/aws/aws-extensions-for-dotnet-cli, https://github.com/aws/aws-lambda-dotnet
+
+Payload:
+"HELLO WORLD!"
+
+Log Tail:
+START RequestId: a8f9aca7-c09b-4e26-9d52-3912cc4bab35 Version: $LATEST
+END RequestId: a8f9aca7-c09b-4e26-9d52-3912cc4bab35
+REPORT RequestId: a8f9aca7-c09b-4e26-9d52-3912cc4bab35  Duration: 357.00 ms     Billed Duration: 357 ms Memory Size: 256 MB     Max Memory Used: 61 MB  Init Duration: 224.86 ms
+
+gitpod /workspace/dotnet-codespace/1_AWS_Lambda/HelloLambda/src/HelloLambda (main) $ dotnet lambda delete-function --function-name HelloLambda
+Amazon Lambda Tools for .NET Core applications (5.8.0)
+Project Home: https://github.com/aws/aws-extensions-for-dotnet-cli, https://github.com/aws/aws-lambda-dotnet
+
+Lambda function HelloLambda deleted
 ```
