@@ -1,6 +1,10 @@
-export PATH=$PATH:$(pwd)/.dotnet
 ## Reference:
 ## - https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-environment-variables#net-sdk-and-cli-environment-variables
 export DOTNET_ROOT=$(pwd)/.dotnet
 export NUGET_PACKAGES=$(pwd)/.nuget/packages
 export DOTNET_CLI_TELEMETRY_OPTOUT=true
+
+export PATH=$PATH:${DOTNET_ROOT}:${DOTNET_ROOT}/tools
+
+## personal tweak
+export TZ="Asia/Taipei"             ## use Taipei time

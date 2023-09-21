@@ -403,3 +403,7 @@ FodyWeavers.xsd
 
 # 2023-09-05 - ignore .dotnet runtime for gitpod
 .dotnet
+# 2023-09-21 - ignore .net nuget packages and templates
+.local
+.nuget
+.templateengine
