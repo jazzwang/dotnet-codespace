@@ -516,3 +516,42 @@ There are two ways to debug your Lambda functions locally to step through your c
 | Tutorial 11 | Containers and the Runtime Interface Emulator.pdf | 203.7 KB |
 
 ### Resources
+
+- ( 2023-09-21 16:45:11 )
+#### Additional .NET on AWS Training
+
+Advance your knowledge and skills with more .NET training and courses.
+- Badges & Training - .NET on AWS
+  https://aws.amazon.com/developer/language/net/badges-and-training/
+- <mark>.NET Workloads on AWS Lambda</mark>
+  https://aws.amazon.com/developer/language/net/badges-and-training/aws-lambda/
+
+#### Other related links
+
+- https://github.com/aws/dotnet
+- https://aws.amazon.com/developer/language/net/
+- https://github.com/aws-samples/aws-net-guides
+- https://docs.aws.amazon.com/lambda/latest/dg/lambda-csharp.html
+
+##
+
+- ( 2023-09-21 18:57:52 )
+```bash
+gitpod /workspace/dotnet-codespace (main) $ mkdir 1_AWS_Lambda
+gitpod /workspace/dotnet-codespace (main) $ cd 1_AWS_Lambda/
+gitpod /workspace/dotnet-codespace/1_AWS_Lambda (main) $ dotnet tool install -g Amazon.Lambda.Tools
+gitpod /workspace/dotnet-codespace/1_AWS_Lambda (main) $ dotnet new -i Amazon.Lambda.Templates
+gitpod /workspace/dotnet-codespace/1_AWS_Lambda (main) $ export PATH="$PATH:/home/gitpod/.dotnet/tools"
+gitpod /workspace/dotnet-codespace/1_AWS_Lambda (main) $ dotnet new lambda.EmptyFunction -n HelloLambda
+The template "Lambda Empty Function" was created successfully.
+gitpod /workspace/dotnet-codespace/1_AWS_Lambda (main) $ cd HelloLambda/src/HelloLambda
+gitpod /workspace/dotnet-codespace/1_AWS_Lambda/HelloLambda/src/HelloLambda (main) $ dotnet lambda deploy-function --function-name HelloLambda
+Amazon Lambda Tools for .NET Core applications (5.8.0)
+Project Home: https://github.com/aws/aws-extensions-for-dotnet-cli, https://github.com/aws/aws-lambda-dotnet
+
+Enter AWS Region: (The region to connect to AWS services, if not set region will be detected from the environment.)
+
+Can not determine AWS region. Either configure a default region or use the --region option.
+```
+- ( 2023-09-21 09:04:27 )
+- Need to install and configure AWS CLI
