@@ -869,4 +869,7 @@ $Response=Invoke-LMFunction -FunctionName StringToUpperCase -Payload '"hello wor
 
 #### Docker for .NET 7 Native AOT Functions (Skip)
 
+#### Comparison of select tools
+
 - ( 2023-09-21 23:13:22 )
+![](https://d1.awsstatic.com/getting-started-guides/lambda/module-2/figure-19-comparison-tools-table.8c24b09233b6464ece320c14f15cbcb235e5d5ac.png)
