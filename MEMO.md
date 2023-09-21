@@ -672,3 +672,138 @@ Project Home: https://github.com/aws/aws-extensions-for-dotnet-cli, https://gith
 
 Lambda function HelloLambda deleted
 ```
+- ( 2023-09-21 22:29:45 )
+- Running Demo 2
+```bash
+gitpod /workspace/dotnet-codespace/1_AWS_Lambda (main) $ dotnet new serverless.AspNetCoreMinimalAPI -n HelloLambdaAPI
+The template "Lambda ASP.NET Core Minimal API" was created successfully.
+
+gitpod /workspace/dotnet-codespace/1_AWS_Lambda (main) $ aws s3api create-bucket --bucket jazzwang-lambda
+{
+    "Location": "/jazzwang-lambda"
+}
+gitpod /workspace/dotnet-codespace/1_AWS_Lambda (main) $ git add HelloLambdaAPI/
+gitpod /workspace/dotnet-codespace/1_AWS_Lambda (main) $ git st
+On branch main
+Your branch is ahead of 'origin/main' by 2 commits.
+  (use "git push" to publish your local commits)
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   HelloLambdaAPI/src/HelloLambdaAPI/Controllers/CalculatorController.cs
+        new file:   HelloLambdaAPI/src/HelloLambdaAPI/HelloLambdaAPI.csproj
+        new file:   HelloLambdaAPI/src/HelloLambdaAPI/Program.cs
+        new file:   HelloLambdaAPI/src/HelloLambdaAPI/Readme.md
+        new file:   HelloLambdaAPI/src/HelloLambdaAPI/appsettings.Development.json
+        new file:   HelloLambdaAPI/src/HelloLambdaAPI/appsettings.json
+        new file:   HelloLambdaAPI/src/HelloLambdaAPI/aws-lambda-tools-defaults.json
+        new file:   HelloLambdaAPI/src/HelloLambdaAPI/serverless.template
+
+gitpod /workspace/dotnet-codespace/1_AWS_Lambda (main) $ cd HelloLambdaAPI/src/HelloLambdaAPI/
+gitpod /workspace/dotnet-codespace/1_AWS_Lambda/HelloLambdaAPI/src/HelloLambdaAPI (main) $ dotnet lambda deploy-serverless --stack-name HelloLambdaAPI --s3-bucket jazzwang-lambda
+Amazon Lambda Tools for .NET Core applications (5.8.0)
+Project Home: https://github.com/aws/aws-extensions-for-dotnet-cli, https://github.com/aws/aws-lambda-dotnet
+
+Processing CloudFormation resource AspNetCoreFunction
+Initiate packaging of . for resource AspNetCoreFunction
+Executing publish command
+... invoking 'dotnet publish', working folder '/workspace/dotnet-codespace/1_AWS_Lambda/HelloLambdaAPI/src/HelloLambdaAPI/./bin/Release/net6.0/publish'
+... dotnet publish "/workspace/dotnet-codespace/1_AWS_Lambda/HelloLambdaAPI/src/HelloLambdaAPI/." --output "/workspace/dotnet-codespace/1_AWS_Lambda/HelloLambdaAPI/src/HelloLambdaAPI/./bin/Release/net6.0/publish" --configuration "Release" --framework "net6.0" /p:GenerateRuntimeConfigurationFiles=true --runtime linux-x64 --self-contained False
+... publish: MSBuild version 17.3.2+561848881 for .NET
+... publish:   Determining projects to restore...
+... publish:   Restored /workspace/dotnet-codespace/1_AWS_Lambda/HelloLambdaAPI/src/HelloLambdaAPI/HelloLambdaAPI.csproj (in 2.39 sec).
+... publish:   HelloLambdaAPI -> /workspace/dotnet-codespace/1_AWS_Lambda/HelloLambdaAPI/src/HelloLambdaAPI/bin/Release/net6.0/linux-x64/HelloLambdaAPI.dll
+... publish:   HelloLambdaAPI -> /workspace/dotnet-codespace/1_AWS_Lambda/HelloLambdaAPI/src/HelloLambdaAPI/bin/Release/net6.0/publish/
+Changed permissions on published file (chmod +rx aws-lambda-tools-defaults.json).
+Changed permissions on published file (chmod +rx HelloLambdaAPI.runtimeconfig.json).
+Changed permissions on published file (chmod +rx HelloLambdaAPI.pdb).
+Changed permissions on published file (chmod +rx appsettings.Development.json).
+Changed permissions on published file (chmod +rx appsettings.json).
+Changed permissions on published file (chmod +rx HelloLambdaAPI.deps.json).
+Changed permissions on published file (chmod +rx Amazon.Lambda.APIGatewayEvents.dll).
+Changed permissions on published file (chmod +rx Amazon.Lambda.ApplicationLoadBalancerEvents.dll).
+Changed permissions on published file (chmod +rx Amazon.Lambda.AspNetCoreServer.dll).
+Changed permissions on published file (chmod +rx Amazon.Lambda.Core.dll).
+Changed permissions on published file (chmod +rx Amazon.Lambda.AspNetCoreServer.Hosting.dll).
+Changed permissions on published file (chmod +rx Amazon.Lambda.Logging.AspNetCore.dll).
+Changed permissions on published file (chmod +rx Amazon.Lambda.RuntimeSupport.dll).
+Changed permissions on published file (chmod +rx Amazon.Lambda.Serialization.SystemTextJson.dll).
+Changed permissions on published file (chmod +rx HelloLambdaAPI.dll).
+Changed permissions on published file (chmod +rx HelloLambdaAPI).
+Zipping publish folder /workspace/dotnet-codespace/1_AWS_Lambda/HelloLambdaAPI/src/HelloLambdaAPI/./bin/Release/net6.0/publish to /tmp/AspNetCoreFunction-CodeUri-Or-ImageUri-638309323864693959.zip
+... zipping:   adding: aws-lambda-tools-defaults.json (deflated 46%)
+... zipping:   adding: HelloLambdaAPI.runtimeconfig.json (deflated 49%)
+... zipping:   adding: HelloLambdaAPI.pdb (deflated 48%)
+... zipping:   adding: appsettings.Development.json (deflated 27%)
+... zipping:   adding: appsettings.json (deflated 26%)
+... zipping:   adding: HelloLambdaAPI.deps.json (deflated 78%)
+... zipping:   adding: Amazon.Lambda.APIGatewayEvents.dll (deflated 61%)
+... zipping:   adding: Amazon.Lambda.ApplicationLoadBalancerEvents.dll (deflated 59%)
+... zipping:   adding: Amazon.Lambda.AspNetCoreServer.dll (deflated 54%)
+... zipping:   adding: Amazon.Lambda.Core.dll (deflated 56%)
+... zipping:   adding: Amazon.Lambda.AspNetCoreServer.Hosting.dll (deflated 53%)
+... zipping:   adding: Amazon.Lambda.Logging.AspNetCore.dll (deflated 51%)
+... zipping:   adding: Amazon.Lambda.RuntimeSupport.dll (deflated 58%)
+... zipping:   adding: Amazon.Lambda.Serialization.SystemTextJson.dll (deflated 50%)
+... zipping:   adding: HelloLambdaAPI.dll (deflated 55%)
+... zipping:   adding: HelloLambdaAPI (deflated 62%)
+Created publish archive (/tmp/AspNetCoreFunction-CodeUri-Or-ImageUri-638309323864693959.zip).
+Lambda project successfully packaged: /tmp/AspNetCoreFunction-CodeUri-Or-ImageUri-638309323864693959.zip
+Uploading to S3. (Bucket: jazzwang-lambda Key: HelloLambdaAPI/AspNetCoreFunction-CodeUri-Or-ImageUri-638309323864693959-638309324008703606.zip)
+... Progress: 29%
+... Progress: 58%
+... Progress: 88%
+... Progress: 100%
+Uploading to S3. (Bucket: jazzwang-lambda Key: HelloLambdaAPI/HelloLambdaAPI-serverless-638309324018178072.template)
+... Progress: 100%
+Found existing stack: False
+CloudFormation change set created
+... Waiting for change set to be reviewed
+Created CloudFormation stack HelloLambdaAPI
+
+Timestamp            Logical Resource Id                      Status
+-------------------- ---------------------------------------- ----------------------------------------
+9/21/2023 10:33 PM   HelloLambdaAPI                           CREATE_IN_PROGRESS
+9/21/2023 10:33 PM   AspNetCoreFunctionRole                   CREATE_IN_PROGRESS
+9/21/2023 10:33 PM   AspNetCoreFunctionRole                   CREATE_IN_PROGRESS
+
+9/21/2023 10:34 PM   AspNetCoreFunctionRole                   CREATE_COMPLETE
+9/21/2023 10:34 PM   AspNetCoreFunction                       CREATE_IN_PROGRESS
+9/21/2023 10:34 PM   AspNetCoreFunction                       CREATE_IN_PROGRESS
+9/21/2023 10:34 PM   AspNetCoreFunction                       CREATE_COMPLETE
+9/21/2023 10:34 PM   ServerlessRestApi                        CREATE_IN_PROGRESS
+9/21/2023 10:34 PM   ServerlessRestApi                        CREATE_IN_PROGRESS
+9/21/2023 10:34 PM   ServerlessRestApi                        CREATE_COMPLETE
+9/21/2023 10:34 PM   AspNetCoreFunctionProxyResourcePermissionProd CREATE_IN_PROGRESS
+9/21/2023 10:34 PM   ServerlessRestApiDeploymentcfb7a37fc3    CREATE_IN_PROGRESS
+9/21/2023 10:34 PM   AspNetCoreFunctionRootResourcePermissionProd CREATE_IN_PROGRESS
+9/21/2023 10:34 PM   AspNetCoreFunctionProxyResourcePermissionProd CREATE_IN_PROGRESS
+9/21/2023 10:34 PM   AspNetCoreFunctionRootResourcePermissionProd CREATE_IN_PROGRESS
+9/21/2023 10:34 PM   AspNetCoreFunctionRootResourcePermissionProd CREATE_COMPLETE
+9/21/2023 10:34 PM   AspNetCoreFunctionProxyResourcePermissionProd CREATE_COMPLETE
+9/21/2023 10:34 PM   ServerlessRestApiDeploymentcfb7a37fc3    CREATE_IN_PROGRESS
+9/21/2023 10:34 PM   ServerlessRestApiDeploymentcfb7a37fc3    CREATE_COMPLETE
+9/21/2023 10:34 PM   ServerlessRestApiProdStage               CREATE_IN_PROGRESS
+9/21/2023 10:34 PM   ServerlessRestApiProdStage               CREATE_IN_PROGRESS
+9/21/2023 10:34 PM   ServerlessRestApiProdStage               CREATE_COMPLETE
+9/21/2023 10:34 PM   HelloLambdaAPI                           CREATE_COMPLETE
+Stack finished updating with status: CREATE_COMPLETE
+
+Output Name                    Value
+------------------------------ --------------------------------------------------
+ApiURL                         https://tv9r0kmtci.execute-api.us-east-1.amazonaws.com/Prod/
+```
+- ( 2023-09-21 22:35:39 )
+- Checking result by `open https://tv9r0kmtci.execute-api.us-east-1.amazonaws.com/Prod/`
+```bash
+jazzwang:~$ open https://tv9r0kmtci.execute-api.us-east-1.amazonaws.com/Prod/
+```
+- ( 2023-09-21 22:38:59 )
+- Clean up
+```bash
+gitpod /workspace/dotnet-codespace/1_AWS_Lambda/HelloLambdaAPI/src/HelloLambdaAPI (main) $ dotnet lambda delete-serverless HelloLambdaAPI
+Amazon Lambda Tools for .NET Core applications (5.8.0)
+Project Home: https://github.com/aws/aws-extensions-for-dotnet-cli, https://github.com/aws/aws-lambda-dotnet
+
+CloudFormation stack HelloLambdaAPI deleted
+```
