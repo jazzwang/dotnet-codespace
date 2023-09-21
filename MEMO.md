@@ -555,3 +555,15 @@ Can not determine AWS region. Either configure a default region or use the --reg
 ```
 - ( 2023-09-21 09:04:27 )
 - Need to install and configure AWS CLI
+```bash
+gitpod /workspace/dotnet-codespace (main) $ cd sbin/
+gitpod /workspace/dotnet-codespace/sbin (main) $ code install-aws-cli
+gitpod /workspace/dotnet-codespace/sbin (main) $ cd ..
+gitpod /workspace/dotnet-codespace (main) $ chmod a+x sbin/install-aws-cli
+gitpod /workspace/dotnet-codespace (main) $ git add sbin/install-aws-cli
+gitpod /workspace/dotnet-codespace (main) $ git commit -a
+[main 9e0a6a1] add sbin/install-aws-cli
+ 1 file changed, 4 insertions(+)
+ create mode 100644 sbin/install-aws-cli
+gitpod /workspace/dotnet-codespace (main) $ git push
+```
