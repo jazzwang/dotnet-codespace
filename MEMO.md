@@ -1,5 +1,7 @@
 # Development Notes
 
+[TOC]
+
 ## 2023-09-05
 
 - ( 2023-09-05 10:48:15 )
@@ -110,11 +112,12 @@ bash: dotnet-script: command not found
 - ( 2023-09-05 04:20:18 )
 - Reference: https://docs.aws.amazon.com/lambda/latest/dg/lambda-csharp.html
 
-## 2023-09-11
+## [AWS SkillBuilder] .NET Workloads on AWS Lambda
 
 - ( 2023-09-11 14:06:50 )
-- [AWS SkillBuilder] .NET Workloads on AWS Lambda
 - https://explore.skillbuilder.aws/learn/course/15308/net-workloads-on-aws-lambda
+
+## 2023-09-11 ~ 2023-09-13
 
 ### Unit 1: Introduction
 
@@ -238,123 +241,125 @@ bash: dotnet-script: command not found
   - You can also create and deploy a **full web API application** that can respond to all HTTP commands
   - build a **suite of Lambda functions** orchestrated by **AWS Step Functions**.
 
-## 2023-09-12
-
+#### Unit 2.1: Supported versions of .NET
 - ( 2023-09-12 15:56:17 )
-- Supported versions of .NET
-  - 1. managed runtime provided by AWS
-    - As of January 2023, AWS only offers managed runtimes for long-term support (LTS) versions of .NET runtime:
-      - **.NET 3.1**
-      - **.NET 6**
-    - The .NET managed runtimes are available for both **x86_64** and **arm64** architectures and run on **Amazon Linux 2**.
-    - PS. available Lambda runtimes - https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html
-  - 2. custom runtime
-    - pass `--self-contained true` to the `dotnet build`` command.
-    - using the `aws-lambda-tools-defaults.json` file with the following parameter: `"msbuild-parameters": "--self-contained true"`
-    - To help reduce this size, consider using the .NET compilation features [Trimming](https://docs.microsoft.com/en-us/dotnet/core/deploying/trimming/trim-self-contained) and also [ReadyToRun](https://docs.microsoft.com/en-us/dotnet/core/deploying/ready-to-run).
-  - 3. container image
-    - AWS provides various **[base images](https://gallery.ecr.aws/lambda/dotnet) for .NET and .NET Core** to help get you started.
-      - see the Dockerfiles in [this repository](https://github.com/aws/aws-lambda-dotnet/tree/master/LambdaRuntimeDockerfiles/Images).
-    - Images of up to **10 GB** are supported
-- Invoking a .NET Lambda function
-  - You can invoke a .NET Lambda function with:
-    -  a string,
-    - JSON object
-    - HTTP request
-    - Amazon S3 (when an object change occurs)
-    - Kinesis (when an event arrives)
-    - DynamoDB (when a change occurs on a table)
-    - Amazon SNS (when a message arrives)
-    - AWS Step Functions
-    - a stream. However - this is a less common scenario. For more information, see the page on [handling streams](https://docs.aws.amazon.com/lambda/latest/dg/csharp-handler.html#csharp-handler-streams)
+- 1. managed runtime provided by AWS
+  - As of January 2023, AWS only offers managed runtimes for long-term support (LTS) versions of .NET runtime:
+    - **.NET 3.1**
+    - **.NET 6**
+  - The .NET managed runtimes are available for both **x86_64** and **arm64** architectures and run on **Amazon Linux 2**.
+  - PS. available Lambda runtimes - https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html
+- 2. custom runtime
+  - pass `--self-contained true` to the `dotnet build`` command.
+  - using the `aws-lambda-tools-defaults.json` file with the following parameter: `"msbuild-parameters": "--self-contained true"`
+  - To help reduce this size, consider using the .NET compilation features [Trimming](https://docs.microsoft.com/en-us/dotnet/core/deploying/trimming/trim-self-contained) and also [ReadyToRun](https://docs.microsoft.com/en-us/dotnet/core/deploying/ready-to-run).
+- 3. container image
+  - AWS provides various **[base images](https://gallery.ecr.aws/lambda/dotnet) for .NET and .NET Core** to help get you started.
+    - see the Dockerfiles in [this repository](https://github.com/aws/aws-lambda-dotnet/tree/master/LambdaRuntimeDockerfiles/Images).
+  - Images of up to **10 GB** are supported
 
-  - ( 2023-09-12 16:29:53 )
-  - Function Handler
-    - Each Lambda function has a single function handler.
-      - If you look at the `aws-lambda-tools-defaults.json`, you can see the `"function-handler":`  specified.
-    - Along with the **JSON input**, the Lambda function handler can also take an **optional `ILambdaContext` object**.
-    - `ILambdaContext` object gives you access to information about the current invocation, such as
-      - the **time it has left to complete**,
-      - the **function name**, and
-      - **version**.
-  - ( 2023-09-12 16:40:27 )
-  - JSON input
-    - If you wanted to call a Lambda function in response to a file change on an S3 bucket, you must create a Lambda function that accepts **an object of type S3Event**.
-    ```c#
-    public async string FunctionHandler(S3Event s3Event, ILambdaContext context)
-    {
-      ...
-    }
+#### Unit 2.2: AWS SDK for .NET
+
+#### Unit 2.3: Invoking a .NET Lambda function
+- You can invoke a .NET Lambda function with:
+  -  a string,
+  - JSON object
+  - HTTP request
+  - Amazon S3 (when an object change occurs)
+  - Kinesis (when an event arrives)
+  - DynamoDB (when a change occurs on a table)
+  - Amazon SNS (when a message arrives)
+  - AWS Step Functions
+  - a stream. However - this is a less common scenario. For more information, see the page on [handling streams](https://docs.aws.amazon.com/lambda/latest/dg/csharp-handler.html#csharp-handler-streams)
+
+- ( 2023-09-12 16:29:53 )
+- Function Handler
+  - Each Lambda function has a single function handler.
+    - If you look at the `aws-lambda-tools-defaults.json`, you can see the `"function-handler":`  specified.
+  - Along with the **JSON input**, the Lambda function handler can also take an **optional `ILambdaContext` object**.
+  - `ILambdaContext` object gives you access to information about the current invocation, such as
+    - the **time it has left to complete**,
+    - the **function name**, and
+    - **version**.
+- ( 2023-09-12 16:40:27 )
+- JSON input
+  - If you wanted to call a Lambda function in response to a file change on an S3 bucket, you must create a Lambda function that accepts **an object of type S3Event**.
+  ```c#
+  public async string FunctionHandler(S3Event s3Event, ILambdaContext context)
+  {
+    ...
+  }
+  ```
+  - Here are some of the common packages you might use to handle events from other services:
+    - https://www.nuget.org/packages/Amazon.Lambda.S3Events
+    - https://www.nuget.org/packages/Amazon.Lambda.SNSEvents
+    - https://www.nuget.org/packages/Amazon.Lambda.DynamoDBEvents
+    - https://www.nuget.org/packages/Amazon.Lambda.CloudWatchEvents
+    - https://www.nuget.org/packages/Amazon.Lambda.KinesisEvents
+    - https://www.nuget.org/packages/Amazon.Lambda.APIGatewayEvents
+
+- ( 2023-09-13 23:13:14 )
+- **Serialization**
+  - there are two broad categories of Lambda project templates:
+    - those templates that start with "lambda."
     ```
-    - Here are some of the common packages you might use to handle events from other services:
-      - https://www.nuget.org/packages/Amazon.Lambda.S3Events
-      - https://www.nuget.org/packages/Amazon.Lambda.SNSEvents
-      - https://www.nuget.org/packages/Amazon.Lambda.DynamoDBEvents
-      - https://www.nuget.org/packages/Amazon.Lambda.CloudWatchEvents
-      - https://www.nuget.org/packages/Amazon.Lambda.KinesisEvents
-      - https://www.nuget.org/packages/Amazon.Lambda.APIGatewayEvents
+    gitpod /workspace/dotnet-codespace (main) $ dotnet new -l | grep "AWS/Lambda" | grep lambda
+    Empty Top-level Function                                             lambda.EmptyTopLevelFunction                  [C#]        AWS/Lambda/Serverless
+    Lambda Custom Runtime Function (.NET 7)                              lambda.CustomRuntimeFunction                  [C#],F#     AWS/Lambda/Function
+    Lambda Detect Image Labels                                           lambda.DetectImageLabels                      [C#],F#     AWS/Lambda/Function
+    Lambda Empty Function                                                lambda.EmptyFunction                          [C#],F#     AWS/Lambda/Function
+    Lambda Empty Function (.NET 7 Container Image)                       lambda.image.EmptyFunction                    [C#],F#     AWS/Lambda/Function
+    Lambda Function project configured for deployment using .NET 7's...  lambda.NativeAOT                              [C#],F#     AWS/Lambda/Function
+    Lambda Function with Powertools for AWS Lambda (.NET)                lambda.Powertools                             [C#]        AWS/Lambda/Function/Powertools
+    Lambda Simple Application Load Balancer Function                     lambda.SimpleApplicationLoadBalancerFunction  [C#]        AWS/Lambda/Function
+    Lambda Simple DynamoDB Function                                      lambda.DynamoDB                               [C#],F#     AWS/Lambda/Function
+    Lambda Simple Kinesis Firehose Function                              lambda.KinesisFirehose                        [C#]        AWS/Lambda/Function
+    Lambda Simple Kinesis Function                                       lambda.Kinesis                                [C#],F#     AWS/Lambda/Function
+    Lambda Simple S3 Function                                            lambda.S3                                     [C#],F#     AWS/Lambda/Function
+    Lambda Simple SNS Function                                           lambda.SNS                                    [C#]        AWS/Lambda/Function
+    Lambda Simple SQS Function                                           lambda.SQS                                    [C#]        AWS/Lambda/Function
+    Lex Book Trip Sample                                                 lambda.LexBookTripSample                      [C#]        AWS/Lambda/Function
+    Order Flowers Chatbot Tutorial                                       lambda.OrderFlowersChatbot                    [C#]        AWS/Lambda/Function
+    ```
+    - those templates start with "serverless."
+    - ( 2023-09-19 15:54:55 )
+    ```
+    gitpod /workspace/dotnet-codespace (main) $ dotnet new -l | grep "AWS/Lambda" | grep serverless
+    Lambda Annotations Framework Sample                                  serverless.Annotations                        [C#]        AWS/Lambda/Serverless
+    Lambda ASP.NET Core Minimal API                                      serverless.AspNetCoreMinimalAPI               [C#]        AWS/Lambda/Serverless
+    Lambda ASP.NET Core Web API                                          serverless.AspNetCoreWebAPI                   [C#],F#     AWS/Lambda/Serverless
+    Lambda ASP.NET Core Web API (.NET 6 Container Image)                 serverless.image.AspNetCoreWebAPI             [C#],F#     AWS/Lambda/Serverless
+    Lambda ASP.NET Core Web Application with Razor Pages                 serverless.AspNetCoreWebApp                   [C#]        AWS/Lambda/Serverless
+    Lambda Empty Serverless                                              serverless.EmptyServerless                    [C#],F#     AWS/Lambda/Serverless
+    Lambda Empty Serverless (.NET 7 Container Image)                     serverless.image.EmptyServerless              [C#],F#     AWS/Lambda/Serverless
+    Lambda Giraffe Web App                                               serverless.Giraffe                            F#          AWS/Lambda/Serverless
+    Lambda Serverless with Powertools for AWS Lambda (.NET)              serverless.Powertools                         [C#]        AWS/Lambda/Serverless/Powertools
+    Serverless Detect Image Labels                                       serverless.DetectImageLabels                  [C#],F#     AWS/Lambda/Serverless
+    Serverless project configured for deployment using .NET 7's Nati...  serverless.NativeAOT                          [C#],F#     AWS/Lambda/Serverless
+    Serverless Simple S3 Function                                        serverless.S3                                 [C#],F#     AWS/Lambda/Serverless
+    Serverless WebSocket API                                             serverless.WebSocketAPI                       [C#]        AWS/Lambda/Serverless
+    Step Functions Hello World                                           serverless.StepFunctionsHelloWorld            [C#],F#     AWS/Lambda/Serverless
+    ```
+  - ( 2023-09-19 16:16:46 ) TODO: 這段待測驗 Template 後再重新理解內容描述要表達的意義
+#### Unit 2.4: Concurrency
 
-## 2023-09-13
+- ( 2023-09-19 16:17:44 )
+- There are two kinds of concurrency to consider when working with Lambda functions:
+  - **reserved concurrency**
+    - guaranteeing that the function will be able to reach the specified number of simultaneous executions.
+  - **provisioned concurrency**
+    - initializing a specified number of Lambda execution environments.
+    - When these have initialized, the Lambda function will be able to respond to requests immediately, <mark>avoiding the issue of **cold starts**</mark>.
+    - <mark>provisioned concurrency 跟費用有關</mark>
+    - https://docs.aws.amazon.com/lambda/latest/dg/configuration-concurrency.html
+    - https://docs.aws.amazon.com/lambda/latest/dg/provisioned-concurrency.html
 
-  - ( 2023-09-13 23:13:14 )
-  - **Serialization**
-    - there are two broad categories of Lambda project templates:
-      - those templates that start with "lambda."
-      ```
-      gitpod /workspace/dotnet-codespace (main) $ dotnet new -l | grep "AWS/Lambda" | grep lambda
-      Empty Top-level Function                                             lambda.EmptyTopLevelFunction                  [C#]        AWS/Lambda/Serverless
-      Lambda Custom Runtime Function (.NET 7)                              lambda.CustomRuntimeFunction                  [C#],F#     AWS/Lambda/Function
-      Lambda Detect Image Labels                                           lambda.DetectImageLabels                      [C#],F#     AWS/Lambda/Function
-      Lambda Empty Function                                                lambda.EmptyFunction                          [C#],F#     AWS/Lambda/Function
-      Lambda Empty Function (.NET 7 Container Image)                       lambda.image.EmptyFunction                    [C#],F#     AWS/Lambda/Function
-      Lambda Function project configured for deployment using .NET 7's...  lambda.NativeAOT                              [C#],F#     AWS/Lambda/Function
-      Lambda Function with Powertools for AWS Lambda (.NET)                lambda.Powertools                             [C#]        AWS/Lambda/Function/Powertools
-      Lambda Simple Application Load Balancer Function                     lambda.SimpleApplicationLoadBalancerFunction  [C#]        AWS/Lambda/Function
-      Lambda Simple DynamoDB Function                                      lambda.DynamoDB                               [C#],F#     AWS/Lambda/Function
-      Lambda Simple Kinesis Firehose Function                              lambda.KinesisFirehose                        [C#]        AWS/Lambda/Function
-      Lambda Simple Kinesis Function                                       lambda.Kinesis                                [C#],F#     AWS/Lambda/Function
-      Lambda Simple S3 Function                                            lambda.S3                                     [C#],F#     AWS/Lambda/Function
-      Lambda Simple SNS Function                                           lambda.SNS                                    [C#]        AWS/Lambda/Function
-      Lambda Simple SQS Function                                           lambda.SQS                                    [C#]        AWS/Lambda/Function
-      Lex Book Trip Sample                                                 lambda.LexBookTripSample                      [C#]        AWS/Lambda/Function
-      Order Flowers Chatbot Tutorial                                       lambda.OrderFlowersChatbot                    [C#]        AWS/Lambda/Function
-      ```
-      - those templates start with "serverless."
-      - ( 2023-09-19 15:54:55 )
-      ```
-      gitpod /workspace/dotnet-codespace (main) $ dotnet new -l | grep "AWS/Lambda" | grep serverless
-      Lambda Annotations Framework Sample                                  serverless.Annotations                        [C#]        AWS/Lambda/Serverless
-      Lambda ASP.NET Core Minimal API                                      serverless.AspNetCoreMinimalAPI               [C#]        AWS/Lambda/Serverless
-      Lambda ASP.NET Core Web API                                          serverless.AspNetCoreWebAPI                   [C#],F#     AWS/Lambda/Serverless
-      Lambda ASP.NET Core Web API (.NET 6 Container Image)                 serverless.image.AspNetCoreWebAPI             [C#],F#     AWS/Lambda/Serverless
-      Lambda ASP.NET Core Web Application with Razor Pages                 serverless.AspNetCoreWebApp                   [C#]        AWS/Lambda/Serverless
-      Lambda Empty Serverless                                              serverless.EmptyServerless                    [C#],F#     AWS/Lambda/Serverless
-      Lambda Empty Serverless (.NET 7 Container Image)                     serverless.image.EmptyServerless              [C#],F#     AWS/Lambda/Serverless
-      Lambda Giraffe Web App                                               serverless.Giraffe                            F#          AWS/Lambda/Serverless
-      Lambda Serverless with Powertools for AWS Lambda (.NET)              serverless.Powertools                         [C#]        AWS/Lambda/Serverless/Powertools
-      Serverless Detect Image Labels                                       serverless.DetectImageLabels                  [C#],F#     AWS/Lambda/Serverless
-      Serverless project configured for deployment using .NET 7's Nati...  serverless.NativeAOT                          [C#],F#     AWS/Lambda/Serverless
-      Serverless Simple S3 Function                                        serverless.S3                                 [C#],F#     AWS/Lambda/Serverless
-      Serverless WebSocket API                                             serverless.WebSocketAPI                       [C#]        AWS/Lambda/Serverless
-      Step Functions Hello World                                           serverless.StepFunctionsHelloWorld            [C#],F#     AWS/Lambda/Serverless
-      ```
-    - ( 2023-09-19 16:16:46 ) TODO: 這段待測驗 Template 後再重新理解內容描述要表達的意義
-- **Concurrency**
-  - ( 2023-09-19 16:17:44 )
-  - There are two kinds of concurrency to consider when working with Lambda functions:
-    - **reserved concurrency**
-      - guaranteeing that the function will be able to reach the specified number of simultaneous executions.
-    - **provisioned concurrency**
-      - initializing a specified number of Lambda execution environments.
-      - When these have initialized, the Lambda function will be able to respond to requests immediately, <mark>avoiding the issue of **cold starts**</mark>.
-      - <mark>provisioned concurrency 跟費用有關</mark>
-      - https://docs.aws.amazon.com/lambda/latest/dg/configuration-concurrency.html
-      - https://docs.aws.amazon.com/lambda/latest/dg/provisioned-concurrency.html
-- **Cold starts and warm starts**
-  - ( 2023-09-19 16:22:38 )
-  - Cold Start
-    - The **first time** your function starts, the code is **compiled**, and **initialization** code, such as the constructor, is run. This adds to the cold start time.
-  - ( 2023-09-19 16:28:06 ) TODO: 這段待測驗 Template 後再重新理解內容描述要表達的意義
+#### Unit 2.5: Cold starts and warm starts
+
+- ( 2023-09-19 16:22:38 )
+- Cold Start
+  - The **first time** your function starts, the code is **compiled**, and **initialization** code, such as the constructor, is run. This adds to the cold start time.
+- ( 2023-09-19 16:28:06 ) TODO: 這段待測驗 Template 後再重新理解內容描述要表達的意義
 
 | Tutoroal | Description | File Size |
 |--|--|--|
@@ -373,6 +378,7 @@ dotnet lambda delete-function HelloPersonFunction
 dotnet lambda delete-serverless AspNetCoreWebAPI
 ```
 - ( 2023-09-19 16:30:47 )
+- encounter error to run `dotnet lambda` (.Net CLI Tool)
 ```
 gitpod /workspace/dotnet-codespace (main) $ dotnet lambda
 Could not execute because the specified command or file was not found.
@@ -383,6 +389,7 @@ Possible reasons for this include:
 ```
 - ( 2023-09-19 16:30:53 )
 ```
+gitpod /workspace/dotnet-codespace (main) $ export PATH="$PATH:/home/gitpod/.dotnet/tools"
 gitpod /workspace/dotnet-codespace (main) $ dotnet lambda
 Amazon Lambda Tools for .NET Core applications (5.8.0)
 Project Home: https://github.com/aws/aws-extensions-for-dotnet-cli, https://github.com/aws/aws-lambda-dotnet
@@ -421,3 +428,91 @@ Other Commands:
 To get help on individual commands execute:
         dotnet lambda help <command>
 ```
+
+## 2023-09-21
+
+### Unit 3: Working with Other AWS Services
+
+- **Access AWS RDS database servers from a Lambda function**
+- **Access AWS services from a Lambda function**
+  - If your Lambda function is using Amazon S3, DynamoDB, Kinesis, and so on, **use the AWS SDKs** to interact with those services.
+  - The **role** your Lambda function is running under needs appropriate permissions to interact with each service.
+- **Allow other services to invoke Lambda functions**
+  - Lambda function must use a **resource-based policy**.
+  - This policy gives other services the permission to invoke your Lambda function.
+
+| Tutoroal | Description | File Size |
+|--|--|--|
+| Tutorial 1 | .NET Tools for AWS Lambda.pdf               | 3 MB |
+| Tutorial 2 | The Hello World of Lambda Functions.pdf     | 672.6 KB |
+| Tutorial 3 | A .NET API Running in a Lambda Function.pdf | 246 KB |
+| Tutorial 4 | A Hello World Style .NET Lambda Function.pdf | 837 KB |
+| Tutorial 5 | A .NET Lambda Function that takes a JSON Payload.pdf | 344.5 KB |
+| Tutorial 6 | Creating and Running a Web API Application as a Lambda Function.pdf | 329.6 KB |
+| Tutorial 7 | Accessing AWS Services from a Lambda Function.pdf | 354.9 KB |
+| Tutorial 8 | Allowing Other Services to Invoke Lambda Functions.pdf | 1.8 MB |
+
+### Unit 4: Testing and Debugging Lambda Functions
+
+You can test a Lambda function in several different ways.
+
+1. **Unit Tests**
+    - Use a **test runner in the IDE** of your choice or the **`dotnet test`** command, which is all you need to run the tests.
+1. **AWS .NET Mock Lambda Test Tool**
+    - https://github.com/aws/aws-lambda-dotnet/tree/master/Tools/LambdaTestTool
+    - The tool is included as part of the **AWS Toolkit** for Visual Studio.
+    - Installation:
+
+      ```
+      dotnet tool install -g Amazon.Lambda.TestTool-6.0
+      ```
+
+    - Upgrade:
+
+      ```
+      dotnet tool update -g Amazon.Lambda.TestTool-6.0
+      ```
+
+    - Run:
+
+      ```
+      dotnet lambda-test-tool-6.0
+      ```
+1. Runtime Interface Emulator
+    - If you are developing Lambda functions that are **deployed to containers**, you can use the **Runtime Interface Emulator** to test functions running inside the container.
+1. Local testing compared with cloud-based testing
+    - There are third-party tools like [localstack](https://localstack.cloud/) that you can use to test your functions locally.
+
+#### Unit 4.1: Testing your Lambda function on AWS
+
+- All you need to do is create a .NET test project (the xUnit template is a good choice).
+
+  ```
+  dotnet new xunit -n LambdaTestProject
+  ```
+
+#### Unit 4.2: Debugging your Lambda functions
+
+There are two ways to debug your Lambda functions locally to step through your code and see what is happening:
+
+- Using the unit test project
+  - same technique applies when using Visual Studio, Visual Studio Code, and Rider.
+- Using the **AWS .NET Mock Lambda Test Tool**
+  - Put a **breakpoint** in the function handler.
+
+
+| Tutoroal | Description | File Size |
+|--|--|--|
+| Tutorial 1 | .NET Tools for AWS Lambda.pdf               | 3 MB |
+| Tutorial 2 | The Hello World of Lambda Functions.pdf     | 672.6 KB |
+| Tutorial 3 | A .NET API Running in a Lambda Function.pdf | 246 KB |
+| Tutorial 4 | A Hello World Style .NET Lambda Function.pdf | 837 KB |
+| Tutorial 5 | A .NET Lambda Function that takes a JSON Payload.pdf | 344.5 KB |
+| Tutorial 6 | Creating and Running a Web API Application as a Lambda Function.pdf | 329.6 KB |
+| Tutorial 7 | Accessing AWS Services from a Lambda Function.pdf | 354.9 KB |
+| Tutorial 8 | Allowing Other Services to Invoke Lambda Functions.pdf | 1.8 MB |
+| Tutorial 9 | Testing with the xUnit Test Project Template.pdf | 492.3 KB |
+| Tutorial 10 | Testing with the AWS .NET Mock Lambda Test Tool.pdf | 271 KB |
+| Tutorial 11 | Containers and the Runtime Interface Emulator.pdf | 203.7 KB |
+
+### Resources
