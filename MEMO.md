@@ -806,4 +806,11 @@ Amazon Lambda Tools for .NET Core applications (5.8.0)
 Project Home: https://github.com/aws/aws-extensions-for-dotnet-cli, https://github.com/aws/aws-lambda-dotnet
 
 CloudFormation stack HelloLambdaAPI deleted
+gitpod /workspace/dotnet-codespace/1_AWS_Lambda/HelloLambdaAPI/src/HelloLambdaAPI (main) $ cd ../../..
+gitpod /workspace/dotnet-codespace/1_AWS_Lambda (main) $
 ```
+
+### Module 2: Tooling for .NET Development
+
+- ( 2023-09-21 22:43:59 )
+- https://aws.amazon.com/developer/language/net/badges-and-training/aws-lambda/module-two/
