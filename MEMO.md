@@ -873,3 +873,10 @@ $Response=Invoke-LMFunction -FunctionName StringToUpperCase -Payload '"hello wor
 
 - ( 2023-09-21 23:13:22 )
 ![](https://d1.awsstatic.com/getting-started-guides/lambda/module-2/figure-19-comparison-tools-table.8c24b09233b6464ece320c14f15cbcb235e5d5ac.png)
+
+## 2023-09-22
+
+- ( 2023-09-22 08:49:12 )
+- Do the Skill Assessment
+  - https://aws.amazon.com/developer/language/net/badges-and-training/aws-lambda/module-six/
+  - Pass
