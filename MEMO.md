@@ -1,4 +1,4 @@
-# Development Notes
+urce # Development Notes
 
 [TOC]
 
@@ -880,3 +880,21 @@ $Response=Invoke-LMFunction -FunctionName StringToUpperCase -Payload '"hello wor
 - Do the Skill Assessment
   - https://aws.amazon.com/developer/language/net/badges-and-training/aws-lambda/module-six/
   - Pass
+
+## 2023-09-27
+
+- ![](https://media.licdn.com/dms/image/sync/D5610AQE0Q-Pe4O5yoA/image-shrink_800/0/1695689009130?e=1696395600&v=beta&t=oWW2ummPWwYvqRWyU12y-n5spDg98zwsa2lpeVBUO_0)
+- https://www.credly.com/badges/36e1ed18-a5db-4803-98fc-22a6aa969420/linked_in?t=s1ki0h
+
+## 2023-10-04
+
+### Tutorial: Create a minimal API with ASP.NET Core
+
+- https://learn.microsoft.com/en-us/aspnet/core/tutorials/min-web-api?view=aspnetcore-6.0&tabs=visual-studio-code
+- **[Learning Path]** https://learn.microsoft.com/en-us/training/paths/aspnet-core-minimal-api/
+  - https://learn.microsoft.com/en-us/training/modules/build-web-api-minimal-api/
+
+### Tutorial: Create a controller-based web API with ASP.NET Core
+
+- https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-6.0&tabs=visual-studio-code
+- https://learn.microsoft.com/en-us/training/modules/build-web-api-aspnet-core/
